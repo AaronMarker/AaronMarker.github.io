@@ -1,170 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aaron Marker — Computer Science</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;800&family=Inter:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --accent: #d2b48c; /* tan */
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aaron Marker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/framer-motion@10.12.16/dist/framer-motion.umd.js"></script>
+    <style>
+      html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+        background: white;
+      }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+      .giant-text {
+        font-size: clamp(4rem, 15vw, 16rem);
+        line-height: 0.9;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
 
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 1.5rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      margin-left: 2rem;
-    }
-    nav a:hover {
-      color: var(--accent);
-    }
+      .blend-text {
+        mix-blend-mode: difference;
+        color: white;
+      }
 
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      flex-direction: column;
-      padding: 0 2rem;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 10vw, 8rem);
-      line-height: 1;
-      font-weight: 800;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      color: #333;
-      margin-top: 1rem;
-      letter-spacing: 0.5px;
-    }
+      .fade-image {
+        background-image: url('your-photo.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.2;
+        filter: blur(4px) grayscale(100%);
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden relative">
 
-    /* Accent line */
-    .line {
-      width: 80px;
-      height: 4px;
-      background: var(--accent);
-      margin: 2rem auto;
-    }
+    <!-- Background Image -->
+    <div class="fade-image"></div>
 
-    /* Section */
-    section {
-      padding: 10rem 3rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-    section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    section p {
-      font-size: 1.1rem;
-      color: #444;
-      line-height: 1.8;
-      max-width: 700px;
-    }
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center">
+      <div class="absolute inset-0 bg-tan-100" style="background-color:#d2b48c; clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);"></div>
+      <h1 class="giant-text blend-text relative z-10">Aaron<br>Marker</h1>
+    </section>
 
-    /* Parallax image block */
-    .parallax {
-      position: relative;
-      height: 80vh;
-      background-position: center;
-      background-attachment: fixed;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
+    <!-- About Section -->
+    <section class="p-10 md:p-24 flex flex-col md:flex-row gap-20">
+      <div class="w-full md:w-1/2">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6">Computer Science Meets Design</h2>
+        <p class="text-lg leading-relaxed max-w-lg">
+          I’m a computer scientist and designer exploring the intersection of technology, art, and human experience.
+          My work lives at the edge of algorithms and aesthetics.
+        </p>
+      </div>
+      <div class="w-full md:w-1/2 flex items-center justify-center">
+        <div class="bg-black h-80 w-64 md:w-80 rounded-xl shadow-2xl"></div>
+      </div>
+    </section>
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 3rem;
-      color: #666;
-      font-size: 0.9rem;
-    }
+    <!-- Scroll Motion -->
+    <script>
+      const { animate, scroll } = window.framerMotion;
 
-    /* subtle floating effect */
-    [data-float] {
-      position: relative;
-      will-change: transform;
-      transition: transform 1s ease-out;
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <div><strong>Aaron Marker</strong></div>
-    <div>
-      <a href="#about">About</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <section class="hero" data-float>
-    <h1>Aaron Marker</h1>
-    <div class="line"></div>
-    <p>Computer Science • AI • Systems • Design</p>
-  </section>
-
-  <!-- Parallax image section -->
-  <div class="parallax" style="background-image: url('your-photo-1.jpg');"></div>
-
-  <section id="about">
-    <h2>About</h2>
-    <p>I explore the intersections of computer science, systems, and design. I believe technology can be elegant — both in form and function. This space is a reflection of that idea.</p>
-  </section>
-
-  <div class="parallax" style="background-image: url('your-photo-2.jpg');"></div>
-
-  <section id="work">
-    <h2>Work</h2>
-    <p>Coming soon: A selection of projects that blend technical depth with aesthetic clarity — ranging from AI research to generative visuals and interactive systems.</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Find me on <a href="https://github.com/AaronMarker" style="color: var(--accent); text-decoration: none;">GitHub</a> or email me at <strong>youremail@example.com</strong>.</p>
-  </section>
-
-  <footer>
-    © 2025 Aaron Marker. Built with code, curiosity, and coffee.
-  </footer>
-
-  <script>
-    // 🫧 Simple float animation on scroll
-    const floatElems = document.querySelectorAll('[data-float]');
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      floatElems.forEach(el => {
-        el.style.transform = `translateY(${scrollY * 0.2}px)`;
+      scroll(animate(".giant-text", { y: [0, -100] }), {
+        target: document.body,
+        offset: ["start start", "end start"],
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
