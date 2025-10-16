@@ -3,194 +3,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aaron Marker | Computer Science</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <title>Aaron Marker — Computer Science</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;800&family=Inter:wght@300;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0e0e10;
-      --accent: #00ffc6;
-      --text-light: #f2f2f2;
-      --text-muted: #b0b0b0;
+      --bg: #ffffff;
+      --text: #111111;
+      --accent: #d2b48c; /* tan */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      overflow-x: hidden;
-    }
-
-    /* Navbar */
+    /* Nav */
     nav {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
-      padding: 1rem 2rem;
+      padding: 1.5rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0,0,0,0.5);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
       z-index: 1000;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
     nav a {
-      color: var(--text-light);
+      color: var(--text);
       text-decoration: none;
       margin-left: 2rem;
-      transition: color 0.3s;
     }
-    nav a:hover { color: var(--accent); }
+    nav a:hover {
+      color: var(--accent);
+    }
 
     /* Hero */
     .hero {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      position: relative;
+      flex-direction: column;
+      padding: 0 2rem;
     }
     .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 10vw, 8rem);
+      line-height: 1;
+      font-weight: 800;
     }
     .hero p {
-      color: var(--text-muted);
-      margin-top: 0.5rem;
       font-size: 1.2rem;
+      color: #333;
+      margin-top: 1rem;
+      letter-spacing: 0.5px;
     }
 
-    /* Canvas background */
-    canvas#bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
+    /* Accent line */
+    .line {
+      width: 80px;
+      height: 4px;
+      background: var(--accent);
+      margin: 2rem auto;
     }
 
-    /* Section styling */
+    /* Section */
     section {
-      padding: 6rem 2rem;
+      padding: 10rem 3rem;
       max-width: 1000px;
       margin: auto;
     }
     section h2 {
-      font-size: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
       margin-bottom: 1rem;
-      color: var(--accent);
     }
     section p {
-      line-height: 1.7;
-      color: var(--text-muted);
+      font-size: 1.1rem;
+      color: #444;
+      line-height: 1.8;
+      max-width: 700px;
+    }
+
+    /* Parallax image block */
+    .parallax {
+      position: relative;
+      height: 80vh;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
 
     /* Footer */
     footer {
       text-align: center;
-      padding: 2rem;
-      color: var(--text-muted);
+      padding: 3rem;
+      color: #666;
       font-size: 0.9rem;
     }
 
-    @media (max-width: 600px) {
-      nav a { margin-left: 1rem; }
-      .hero h1 { font-size: 2rem; }
+    /* subtle floating effect */
+    [data-float] {
+      position: relative;
+      will-change: transform;
+      transition: transform 1s ease-out;
     }
   </style>
 </head>
 <body>
-  <canvas id="bg"></canvas>
-
   <nav>
     <div><strong>Aaron Marker</strong></div>
     <div>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
+      <a href="#work">Work</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
 
-  <section class="hero">
-    <h1>Hello, I’m Aaron Marker</h1>
-    <p>Computer Science | AI | Systems | Building cool things ⚡</p>
+  <section class="hero" data-float>
+    <h1>Aaron Marker</h1>
+    <div class="line"></div>
+    <p>Computer Science • AI • Systems • Design</p>
   </section>
+
+  <!-- Parallax image section -->
+  <div class="parallax" style="background-image: url('your-photo-1.jpg');"></div>
 
   <section id="about">
-    <h2>About Me</h2>
-    <p>I’m a computer science enthusiast passionate about systems, AI, and problem-solving. I love building things that make a difference and exploring new technologies.</p>
+    <h2>About</h2>
+    <p>I explore the intersections of computer science, systems, and design. I believe technology can be elegant — both in form and function. This space is a reflection of that idea.</p>
   </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <p>Coming soon: a curated list of personal and academic projects showcasing applied computer science in action 🚀</p>
+  <div class="parallax" style="background-image: url('your-photo-2.jpg');"></div>
+
+  <section id="work">
+    <h2>Work</h2>
+    <p>Coming soon: A selection of projects that blend technical depth with aesthetic clarity — ranging from AI research to generative visuals and interactive systems.</p>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>You can find me on <a href="https://github.com/AaronMarker" target="_blank" style="color: var(--accent);">GitHub</a> or drop me an email at <strong>youremail@example.com</strong>.</p>
+    <p>Find me on <a href="https://github.com/AaronMarker" style="color: var(--accent); text-decoration: none;">GitHub</a> or email me at <strong>youremail@example.com</strong>.</p>
   </section>
 
   <footer>
-    © 2025 Aaron Marker. Built with ❤️ and GitHub Pages.
+    © 2025 Aaron Marker. Built with code, curiosity, and coffee.
   </footer>
 
   <script>
-    // 🧠 Animated network background
-    const canvas = document.getElementById('bg');
-    const ctx = canvas.getContext('2d');
-    let w, h, particles;
-
-    function init() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-      particles = [];
-      for (let i = 0; i < 80; i++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.7,
-          vy: (Math.random() - 0.5) * 0.7
-        });
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      for (let p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > w) p.vx *= -1;
-        if (p.y < 0 || p.y > h) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = '#00ffc6';
-        ctx.fill();
-
-        for (let q of particles) {
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(0,255,198,0.1)';
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(draw);
-    }
-
-    window.addEventListener('resize', init);
-    init();
-    draw();
+    // 🫧 Simple float animation on scroll
+    const floatElems = document.querySelectorAll('[data-float]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      floatElems.forEach(el => {
+        el.style.transform = `translateY(${scrollY * 0.2}px)`;
+      });
+    });
   </script>
 </body>
 </html>
