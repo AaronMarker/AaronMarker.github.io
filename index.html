@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <title>Portfolio - Editorial Experience</title>
 <style>
 * {
@@ -163,12 +164,39 @@ z-index: 2;
 }
 
 .hero-title {
-font-size: clamp(4rem, 12vw, 14rem);
-font-weight: 100;
-letter-spacing: -0.04em;
-line-height: 0.9;
-margin-bottom: 2rem;
-overflow: hidden;
+    font-family: Impact, 'Arial Black', 'Helvetica Inserat', sans-serif;
+    font-size: clamp(4rem, 12vw, 14rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    margin-bottom: 2rem;
+    background: url('https://www.collegeright.com/wp-content/uploads//2010/12/d057d43aa715836355d70e020e2e897f256b9f95-1024x536.jpg') center/cover;
+    background-size: 250%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slowExplore 40s ease-in-out infinite;
+    filter: grayscale(100%) contrast(1.1); /* Add this line */
+}
+
+@keyframes slowExplore {
+    0% {
+        background-size: 200%;
+        background-position: 80% 90%;
+    }
+    33% {
+        background-size: 260%;
+        background-position: 30% 40%;
+    }
+    66% {
+        background-size: 220%;
+        background-position: 60% 70%;
+    }
+    100% {
+        background-size: 200%;
+        background-position: 80% 90%;
+    }
 }
 
 .hero-title span {
@@ -207,7 +235,7 @@ animation: fadeIn 1s ease 1.2s forwards;
 
 .scroll-line {
 width: 1px;
-height: 80px;
+height: 40px;
 background: var(--black);
 animation: scrollLine 2s ease-in-out infinite;
 }
@@ -237,6 +265,8 @@ background: linear-gradient(135deg, #1a1a1a 0%, #a8937a 100%);
 background-size: cover;
 background-position: center;
 }
+
+
 
 .parallax-text {
 position: relative;
@@ -430,6 +460,8 @@ aspect-ratio: 4/5;
 overflow: hidden;
 background: var(--accent-2);
 }
+
+
 
 .project-image-wrapper::before {
 content: '';
@@ -928,7 +960,7 @@ nav {
 <div id="loader">LOADING</div>
 
 <nav>
-<div class="logo">PORTFOLIO</div>
+<div class="logo">AARON MARKER</div>
 <button class="menu-btn" id="menuBtn">MENU</button>
 </nav>
 
@@ -943,11 +975,8 @@ nav {
 
 <section class="hero" id="home">
 <div class="hero-content">
-<h1 class="hero-title">
-    <span>AARON</span><br>
-    <span>MARKER</span>
-</h1>
-<p class="hero-subtitle">Visual Storyteller</p>
+<h1 class="hero-title">AARON<br>MARKER</h1>
+<p class="hero-subtitle">NLP Psych Art</p>
 </div>
 <div class="scroll-indicator">
 <div class="scroll-line"></div>
@@ -964,30 +993,32 @@ nav {
 </div>
 <div class="portrait-text">
     <p class="portrait-label">Introduction</p>
-    <h2 class="portrait-title">Creating with intention and purpose</h2>
+    <h2 class="portrait-title">Better AI</h2>
     <p class="portrait-bio">
-        I'm a multidisciplinary designer and creative director with a passion for crafting 
-        meaningful experiences that exist at the intersection of art and function. Based between 
-        New York and Los Angeles, I work with forward-thinking brands and individuals who value 
-        design as a strategic tool for transformation.
+        I'm a Computer Science PhD Student at Stony Brook University (soon to be Vanderbilt 
+        University) researching ideas at the intersection of psychology and AI. Specifically, 
+        my interests are currently in improving recommender systems to better target well-being.
+        using a variety of Natural Language Processing (NLP) approaches. I hold a BS with a double 
+        major in Computer Science and Cybersecurity from Randolph-Macon College, with a minor 
+        in math and ethics, and have been coding academically and professionally for over a 
+        decade.
+        
     </p>
     <p class="portrait-bio">
-        My work spans visual identity, editorial design, digital experiences, and creative 
-        direction—always guided by a belief that the most powerful design is both beautiful 
-        and purposeful.
+        When I'm not coding, I enjoy painting/drawing (see below) and playing pickup volleyball
     </p>
     <div class="credentials">
         <div class="credential-item">
             <p class="credential-title">Based In</p>
-            <p class="credential-value">New York / Los Angeles</p>
+            <p class="credential-value">Nashville TN</p>
         </div>
         <div class="credential-item">
             <p class="credential-title">Experience</p>
-            <p class="credential-value">8+ Years in Design</p>
+            <p class="credential-value">10+ Years in CS</p>
         </div>
         <div class="credential-item">
             <p class="credential-title">Specialization</p>
-            <p class="credential-value">Creative Direction</p>
+            <p class="credential-value">NLP, AI, Well-Being</p>
         </div>
     </div>
 </div>
@@ -996,7 +1027,7 @@ nav {
 
 <section class="parallax-section">
 <div class="parallax-image" id="parallaxImage"></div>
-<h2 class="parallax-text">CRAFTING EXPERIENCES</h2>
+<h2 class="parallax-text">RESEARCH QUESTIONS</h2>
 </section>
 
 <section class="split-section">
