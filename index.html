@@ -168,10 +168,9 @@ z-index: 2;
     overflow: hidden; /* optional, hides slight overflow */
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 .hero-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 12vw, 18rem);
+    font-size: clamp(5rem, 14vw, 18rem);
     font-weight: 900;
     letter-spacing: -0.01em; /* slightly looser */
     line-height: 0.85;
@@ -957,6 +956,10 @@ nav {
 
 .social-grid {
     grid-template-columns: 1fr;
+}
+.hero-title {
+    font-size: 8vw; /* scales with smaller screen */
+    letter-spacing: 0; /* optional, avoids crowding */
 }
 }
 </style>
