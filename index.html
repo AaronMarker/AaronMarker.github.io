@@ -28,26 +28,187 @@ background: var(--white);
 color: var(--black);
 overflow-x: hidden;
 cursor: none;
+position: relative;
+}
+
+body::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0; /* Cover entire body height */
+background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/84/Map_of_the_city_of_Richmond%2C_Virginia_LOC_99448335.jpg');
+background-repeat: repeat;
+background-size: 150%;
+background-position: center -70vh;
+filter: grayscale(100%);
+opacity: 0.2;
+z-index: -1;
+pointer-events: none;
+}
+
+body::after {
+content: '';
+position: absolute;
+top: 100vh; /* Starts where hero ends */
+left: 0;
+right: 0;
+height: 120vh; /* Covers portrait section */
+background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/84/Map_of_the_city_of_Richmond%2C_Virginia_LOC_99448335.jpg');
+background-size: 150%;
+background-position: center -170vh; /* Offset to continue from above */
+filter: grayscale(100%) invert(1);
+opacity: 1;
+z-index: -1;
+pointer-events: none;
+}
+
+a,
+a:visited,
+a:active {
+    color: white;
+    text-decoration: none;
+    cursor: none;
+}
+
+a:hover {
+    color: white;
+    text-decoration: underline;
+    cursor: none;
 }
 
 /* Custom Cursor */
 #cursor {
-width: 8px;
-height: 8px;
-background: var(--black);
+width: 12px;
+height: 12px;
+background: transparent;
 border-radius: 50%;
 position: fixed;
 pointer-events: none;
 z-index: 10000;
 mix-blend-mode: difference;
-transition: width 0.3s, height 0.3s;
+transition: all 0.005s cubic-bezier(0.77, 0, 0.175, 1);
+filter: url(#goo);
+transform: translate(-50%, -50%);
+}
+
+#cursor::before {
+content: '';
+position: absolute;
+inset: 0;
+background: white;
+border-radius: 50%;
+mix-blend-mode: difference;
+animation: morphBase 3s ease-in-out infinite;
+}
+
+#cursor::after {
+content: '';
+position: absolute;
+inset: -8px;
+background: white;
+border-radius: 50%;
+opacity: 0.6;
+mix-blend-mode: difference;
+animation: morphOuter 3s ease-in-out infinite reverse;
+}
+
+@keyframes morphBase {
+0%, 100% { 
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scale(1);
+}
+25% { 
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(45deg) scale(1.1);
+}
+50% { 
+    border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+    transform: rotate(90deg) scale(0.95);
+}
+75% { 
+    border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%;
+    transform: rotate(135deg) scale(1.05);
+}
+}
+
+@keyframes morphOuter {
+0%, 100% { 
+    border-radius: 40% 60% 60% 40% / 40% 60% 40% 60%;
+    transform: scale(1);
+}
+50% { 
+    border-radius: 60% 40% 40% 60% / 60% 40% 60% 40%;
+    transform: scale(1.2);
+}
 }
 
 #cursor.expand {
-width: 60px;
-height: 60px;
-background: transparent;
-border: 1px solid var(--black);
+width: 90px;
+height: 90px;
+}
+
+#cursor.expand::before {
+animation: morphExpanded 2s ease-in-out infinite;
+background: rgba(255, 255, 255, 0.2);
+backdrop-filter: invert(1) brightness(1.5) saturate(2);
+-webkit-backdrop-filter: invert(1) brightness(1.5) saturate(2);
+mix-blend-mode: normal;
+}
+
+#cursor.expand::after {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(2px) brightness(1.3);
+-webkit-backdrop-filter: blur(2px) brightness(1.3);
+opacity: 1;
+mix-blend-mode: normal;
+}
+
+@keyframes morphExpanded {
+0%, 100% { 
+    border-radius: 55% 45% 60% 40% / 50% 55% 45% 50%;
+}
+50% { 
+    border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%;
+}
+}
+
+/* Ripple effect */
+/* Ripple effect with blur and inversion gradient */
+/* Ripple effect with soft blur gradient */
+/* Ripple effect with soft blur gradient */
+.ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.01) 40%,
+    rgba(255, 255, 255, 0.01) 50%,
+    transparent 100%);
+  backdrop-filter: blur(5px); /* Static - not animated */
+  -webkit-backdrop-filter: blur(5px);
+  animation: rippleExpand 1.2s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes rippleExpand {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    opacity: 0.01;
+  }
+  100% {
+    width: 200vmax;
+    height: 200vmax;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* Loading Screen */
@@ -106,45 +267,218 @@ font-weight: 300;
 /* Full Screen Menu */
 #fullscreen-menu {
 position: fixed;
-inset: 0;
-background: var(--black);
+top: 0;
+right: 0;
+width: 28vw;
+min-width: 350px;
+height: 100vh;
+background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
 z-index: 9998;
 display: flex;
 align-items: center;
 justify-content: center;
 opacity: 0;
 pointer-events: none;
-transition: opacity 0.6s ease;
+transform: translateX(100%);
+transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+overflow: visible; /* Changed from overflow: hidden */
+}
+
+#fullscreen-menu::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(168, 147, 122, 0.15) 0%, transparent 70%);
+animation: menuGlow 8s ease-in-out infinite;
+}
+
+@keyframes menuGlow {
+0%, 100% { transform: translate(0, 0) scale(1); }
+50% { transform: translate(-20%, 20%) scale(1.2); }
 }
 
 #fullscreen-menu.active {
 opacity: 1;
 pointer-events: all;
+transform: translateX(0);
+}
+
+#fullscreen-menu::after {
+content: 'MENU';
+position: absolute;
+top: 50%;
+left: -25%;
+font-size: 18rem;
+font-weight: 100;
+color: rgba(168, 147, 122, 0.05);
+transform: translateY(-50%) rotate(-90deg);
+letter-spacing: 0.2em;
+z-index: 0;
 }
 
 .menu-links {
 list-style: none;
-text-align: center;
-}
-
-.menu-links li {
-margin: 2rem 0;
-overflow: hidden;
+text-align: left;
+position: relative;
+z-index: 2;
+padding: 3rem 8rem 3rem 6rem; /* Increased right padding from 3rem to 8rem */
 }
 
 .menu-links a {
-font-size: clamp(3rem, 8vw, 6rem);
+font-size: clamp(1.8rem, 3vw, 2.5rem);
 color: var(--white);
 text-decoration: none;
 font-weight: 100;
-letter-spacing: -0.02em;
+letter-spacing: 0.05em;
 display: inline-block;
-transition: transform 0.3s ease;
+transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+position: relative;
+text-transform: uppercase;
+white-space: nowrap;
+padding-right: 2
+/* Remove padding-right */
 }
 
 .menu-links a:hover {
-transform: translateX(20px);
-color: var(--earth-tan);
+transform: translateX(15px);
+color: var(--accent-2);
+letter-spacing: 0.15em;
+padding-right: 0
+/* Remove padding-right: 0 */
+}
+
+.menu-links li {
+margin: 1.2rem 0;
+overflow: visible; /* Changed from overflow: hidden */
+position: relative;
+}
+
+.menu-links li::before {
+content: '';
+position: absolute;
+left: -60%;
+top: 50%;
+width: 30px;
+height: 1px;
+background: var(--accent-2);
+transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.menu-links li:hover::before {
+left: -30px; /* Changed from -60px to -30px - closer to text */
+}
+
+.menu-links::before {
+content: '';
+position: absolute;
+top: 0;
+left: 2rem; /* Moved further right from 0.5rem to 2rem */
+width: 2px;
+height: 0;
+background: linear-gradient(180deg, var(--accent-2), transparent);
+transition: height 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0.3s;
+}
+
+.menu-links a::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 0;
+height: 2px;
+background: linear-gradient(90deg, var(--accent-2), transparent);
+transition: width 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.menu-links a:hover::after {
+width: 100%;
+}
+
+
+#fullscreen-menu.active .menu-links::before {
+height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+#fullscreen-menu {
+    width: 75vw;
+    min-width: 280px;
+}
+
+.menu-links a {
+    font-size: 1.8rem;
+}
+
+#fullscreen-menu::after {
+    font-size: 12rem;
+}
+}
+
+.nav-right {
+display: flex;
+align-items: center;
+gap: 0.8rem;
+}
+
+.logo {
+font-size: 1.2rem;
+font-weight: 300;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+}
+
+.social-icons {
+display: flex;
+align-items: center;
+gap: 0.8rem;
+}
+
+.social-icon {
+width: 22px;
+height: 22px;
+color: var(--white);
+opacity: 0.6;
+transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: none;
+}
+
+.social-icon svg {
+width: 100%;
+height: 100%;
+stroke-width: 1.5;
+transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.social-icon:hover {
+opacity: 1;
+transform: translateY(-2px) scale(1.15);
+}
+
+.social-icon:hover svg {
+stroke-width: 2;
+filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.3));
+}
+
+.menu-btn {
+font-size: 0.9rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+background: none;
+border: none;
+color: inherit;
+cursor: none;
+font-weight: 300;
+padding-left: 0.8rem;
+border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Hero Section */
@@ -155,6 +489,29 @@ display: flex;
 align-items: center;
 justify-content: center;
 overflow: hidden;
+}
+.hero::before {
+content: '';
+position: absolute;
+inset: 0;
+background: none;
+z-index: 1;
+pointer-events: none;
+}
+
+.hero::after {
+content: '';
+position: absolute;
+inset: 0;
+background: radial-gradient(ellipse 90% 90% at 50% 50%, 
+    var(--white) 0%, 
+    rgba(250, 250, 250, 0.95) 20%,
+    rgba(250, 250, 250, 0.7) 40%,
+    rgba(250, 250, 250, 0.3) 65%,
+    rgba(250, 250, 250, 0.1) 85%,
+    rgba(250, 250, 250, 0) 100%);
+z-index: 1;
+pointer-events: none;
 }
 
 .hero-content {
@@ -182,7 +539,7 @@ z-index: 2;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: slowExplore 40s ease-in-out infinite;
-    filter: grayscale(100%) contrast(1.1); /* Add this line */
+    filter: grayscale(100%) contrast(1.4) brightness(0.7); /* Add this line */
 }
 
 @keyframes slowExplore {
@@ -192,7 +549,7 @@ z-index: 2;
     }
     33% {
         background-size: 300%;
-        background-position: 30% 40%;
+        background-position: 30% 60%;
     }
     66% {
         background-size: 260%;
@@ -219,38 +576,107 @@ font-size: clamp(1rem, 2vw, 1.4rem);
 font-weight: 300;
 letter-spacing: 0.3em;
 text-transform: uppercase;
-color: var(--gray);
+color: var(--accent-2);
 opacity: 0;
 animation: fadeIn 1s ease 0.8s forwards;
+margin-top: -1rem; /* Add this line */
+}
+
+.logo-grid {
+    display: flex;
+    justify-content: flex-start; /* push everything to the right */
+}
+
+.university-logo {
+    display: flex;
+    align-items: center;
+    gap: -2rem;              /* space between images inside this div */
+    padding: 0;
+}
+
+.university-logo img {
+    width: 60px;              /* adjust as needed */
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 1;
 }
 
 /* Scroll Indicator */
 .scroll-indicator {
-position: absolute;
-bottom: 4rem;
-left: 50%;
-transform: translateX(-50%);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 1rem;
-opacity: 0;
-animation: fadeIn 1s ease 1.2s forwards;
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0;
+    z-index: 10;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-indicator.visible {
+    opacity: 1;
+}
+
+.scroll-indicator.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
+.scroll-indicator::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 280px; /* Taller for vertical stretch */
+    background: radial-gradient(ellipse, 
+        rgba(255, 255, 255, 1) 20%,
+        rgba(255, 255, 255, 0.3) 40%,
+        transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .scroll-line {
-width: 1px;
-height: 40px;
-background: var(--black);
-animation: scrollLine 2s ease-in-out infinite;
+    width: 3px;
+    height: 90px;
+    background: white;
+    mix-blend-mode: difference;
+    animation: scrollLineMove 2s ease-in-out infinite;
 }
 
 .scroll-text {
-font-size: 0.8rem;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-writing-mode: vertical-rl;
-font-weight: 300;
+    font-size: 1.0rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    font-weight: 300;
+}
+
+@keyframes scrollLineMove {
+    0%, 100% {
+        transform: scaleY(0);
+        transform-origin: top;
+        opacity: 1;
+    }
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+        opacity: 1;
+    }
+    51% {
+        transform-origin: bottom;
+    }
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+        opacity: 0.3;
+    }
 }
 
 /* Parallax Image Section */
@@ -402,14 +828,9 @@ transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
 transform: scaleY(0);
 }
 
-/* Magazine Grid */
-.magazine-grid {
-padding: 10rem 4rem;
-background: var(--white);
-}
-
 .grid-header {
 margin-bottom: 6rem;
+background: transparent;
 }
 
 .grid-title {
@@ -535,13 +956,39 @@ color: var(--white);
 /* Portrait Feature Section - Cinematic Style */
 .portrait-section {
 min-height: 100vh;
-background: var(--black);
+background: 
+    radial-gradient(ellipse 200% 60% at 20% 0%,  rgba(10, 10, 10, 0.9) 0%, transparent 40%),
+    radial-gradient(ellipse 100% 50% at 90% 10%, rgba(10, 10, 10, 0.5) 0%, transparent 35%),
+    radial-gradient(ellipse 100% 80% at 70% 30%,  rgba(10, 10, 10, .80) 0%, transparent 50%),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.5) 0%, var(--black) 70%);
 padding: 0;
 position: relative;
 overflow: hidden;
 display: flex;
 align-items: center;
 justify-content: center;
+}
+
+.portrait-section::before {
+content: '';
+position: absolute;
+inset: 0;
+mix-blend-mode: difference;
+opacity: 0.5;
+z-index: 1;
+pointer-events: none;
+mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 30%,
+    rgba(0,0,0,0.7) 50%,
+    rgba(0,0,0,0.3) 70%,
+    transparent 100%);
+-webkit-mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 30%,
+    rgba(0,0,0,0.7) 50%,
+    rgba(0,0,0,0.3) 70%,
+    transparent 100%);
 }
 
 .portrait-container {
@@ -580,6 +1027,7 @@ opacity: 0;
 transform: scale(1.05);
 transition: all 1.4s cubic-bezier(0.77, 0, 0.175, 1);
 }
+
 
 .portrait-section.animate .portrait-image {
 opacity: 1;
@@ -672,6 +1120,349 @@ transition-delay: 0.7s;
 transition-delay: 0.85s;
 }
 
+/* Magazine Grid / Publications Timeline */
+.magazine-grid {
+padding: 10rem 4rem;
+background: rgba(255, 255, 255, 0.7);
+}
+
+.grid-header {
+margin-bottom: 6rem;
+}
+
+.grid-title {
+font-size: clamp(3rem, 8vw, 8rem);
+font-weight: 100;
+letter-spacing: -0.03em;
+line-height: 1;
+}
+
+.grid-subtitle {
+font-size: 1.2rem;
+color: var(--gray);
+margin-top: 1rem;
+font-weight: 300;
+letter-spacing: 0.1em;
+}
+
+/* Timeline Layout */
+.timeline {
+position: relative;
+padding-left: 400px; /* Increased to make room for years */
+margin-left: auto;
+margin-right: auto;
+max-width: 1600px; /* Constrain total width */
+background: transparent;
+}
+
+.timeline::before {
+content: '';
+position: absolute;
+left: 180px; /* Position the vertical line */
+top: 0;
+bottom: 0;
+width: 1px;
+background: linear-gradient(to bottom, 
+    var(--black) 0%, 
+    var(--accent-2) 50%, 
+    transparent 100%);
+}
+
+.timeline-year {
+position: absolute;
+left: -450px; /* Move further left, away from timeline */
+top: 0;
+font-size: clamp(3rem, 5vw, 4.5rem);
+font-weight: 100;
+color: var(--black);
+line-height: 1;
+letter-spacing: -0.02em;
+width: 200px;
+text-align: right;
+}
+.timeline-connector {
+position: absolute;
+left: -220px; /* Distance from content to line */
+top: 1.5rem;
+width: 60px;
+height: 1px;
+background: var(--black);
+}
+
+
+.timeline-item {
+position: relative;
+margin-bottom: 6rem;
+opacity: 0;
+transform: translateX(-30px);
+transition: all 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.timeline-item.visible {
+opacity: 1;
+transform: translateX(0);
+}
+
+
+.timeline-connector::before {
+content: '';
+position: absolute;
+left: -6px;
+top: -5px;
+width: 11px;
+height: 11px;
+border-radius: 50%;
+background: var(--white);
+border: 2px solid var(--black);
+}
+
+.timeline-connector::after {
+content: '';
+position: absolute;
+right: -6px;
+top: -2px;
+width: 5px;
+height: 5px;
+border-radius: 50%;
+background: var(--black);
+}
+
+.timeline-content {
+padding: 2rem 0 2rem 3rem;
+border-left: 2px solid transparent;
+transition: border-color 0.3s ease;
+margin-left: -105px; /* Add this to move content left */
+background: rgba(255, 255, 255, 0.55);
+}
+
+.timeline-item:hover .timeline-content {
+border-left-color: var(--accent-2);
+}
+
+/* Updates Section */
+.updates-section {
+padding: 10rem 0;
+background: linear-gradient(180deg, 
+    rgba(168, 147, 122, 0.15) 0%, 
+    rgba(168, 147, 122, 0.08) 50%,
+    rgba(168, 147, 122, 0.15) 100%);
+position: relative;
+overflow: hidden;
+border-top: 1px solid rgba(168, 147, 122, 0.3);
+border-bottom: 1px solid rgba(168, 147, 122, 0.3);
+background-color: rgba(255, 255, 255, 1);
+}
+
+/* Animated ticker background */
+.updates-section::before {
+content: 'UPDATES • LATEST • NEWS • UPDATES • LATEST • NEWS • UPDATES • LATEST • NEWS • UPDATES • LATEST • NEWS • UPDATES • LATEST • NEWS • UPDATES • LATEST • NEWS • ';
+position: absolute;
+top: 10%;
+left: 0;
+font-size: 28rem;
+font-weight: 100;
+font-family: Georgia, serif;
+color: rgba(168, 147, 122, 0.1);
+white-space: nowrap;
+
+animation: tickerScroll 150s linear infinite;
+transform: translateY(-50%);
+letter-spacing: 0.3em;
+z-index: 0;
+}
+.updates-background::before {
+content: '2001 • 2002 • 2003 • 2004 • 2005 • 2006 • 2007 • 2008 • 2009 • 2010 • 2011 • 2012 • 2013 • 2014 • 2015 • 2016 • 2017 • 2018 • 2019 • 2020 • 2021 • 2022 • 2023 • 2024 • 2025 • 2001 • 2002 • 2003 • 2004 • 2005 • 2006 • 2007 • 2008 • 2009 • 2010 • 2011 • 2012 • 2013 • 2014 • 2015 • 2016 • 2017 • 2018 • 2019 • 2020 • 2021 • 2022 • 2023 • 2024 • 2025 • ';
+position: absolute;
+bottom: -40%;
+left: 0;
+font-size: 64rem;
+font-weight: 100;
+font-family: Georgia, serif;
+color: rgba(168, 147, 122, 0.05);
+white-space: nowrap;
+animation: tickerScrollReverse 1600s linear infinite;
+transform: translateY(-50%);
+letter-spacing: 0.1em;
+z-index: 0;
+}
+
+/* Second ticker going opposite direction for depth */
+.updates-section::after {
+content: 'NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • NEWS • ';
+position: absolute;
+bottom: 20%;
+left: 0; /* Position from left */
+font-size: 12rem;
+font-weight: 100;
+font-family: Georgia, serif;
+color: rgba(168, 147, 122, 0.20); /* More visible for testing */
+white-space: nowrap;
+animation: tickerScrollReverse 120s linear infinite;
+letter-spacing: 0.5em;
+z-index: 0;
+width: max-content;
+}
+
+@keyframes tickerScrollReverse {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100vw); } /* Use viewport width */
+}
+
+@keyframes tickerScroll {
+from { transform: translate(0, -50%); }
+to { transform: translate(-50%, -50%); }
+}
+
+
+.updates-container {
+position: relative;
+z-index: 1;
+padding: 4rem;
+max-width: 1600px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 400px 1fr;
+gap: 6rem;
+align-items: start;
+background: rgba(250, 250, 250, 0.25);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border-radius: 2px;
+box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.updates-header {
+position: sticky;
+top: 8rem;
+}
+
+.updates-title {
+font-size: clamp(3rem, 6vw, 5rem);
+font-weight: 100;
+letter-spacing: -0.03em;
+line-height: 1;
+margin-bottom: 1rem;
+}
+
+.updates-subtitle {
+font-size: 0.9rem;
+color: var(--gray);
+letter-spacing: 0.3em;
+text-transform: uppercase;
+font-weight: 300;
+}
+
+.updates-grid {
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+
+.update-item {
+padding: 2rem 0;
+border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.update-item:first-child {
+border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.update-item.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.update-date {
+display: block;
+font-size: 0.85rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(--accent-2);
+margin-bottom: 0.8rem;
+font-weight: 400;
+}
+
+.update-text {
+font-size: 1.1rem;
+line-height: 1.7;
+color: var(--black);
+font-weight: 300;
+max-width: 700px;
+}
+
+.update-item:hover {
+background: rgba(168, 147, 122, 0.08);
+padding-left: 1rem;
+}
+
+.update-item:hover .update-date {
+color: var(--black);
+}
+
+.paper-title {
+font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+font-weight: 300;
+letter-spacing: -0.01em;
+line-height: 1.3;
+margin-bottom: 1rem;
+color: var(--black);
+}
+
+.paper-authors {
+font-size: 1rem;
+color: var(--gray);
+margin-bottom: 0.8rem;
+font-weight: 300;
+line-height: 1.6;
+}
+
+.paper-venue {
+font-size: 0.85rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(--accent-2);
+margin-bottom: 1.5rem;
+display: inline-block;
+font-weight: 400;
+}
+
+.paper-abstract {
+font-size: 1.05rem;
+line-height: 1.8;
+color: var(--gray);
+margin-bottom: 2rem;
+font-weight: 300;
+max-width: 800px;
+}
+
+.paper-links {
+display: flex;
+gap: 1rem;
+flex-wrap: wrap;
+}
+
+.paper-link {
+padding: 0.7rem 1.8rem;
+border: 1px solid var(--black);
+font-size: 0.8rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+font-weight: 300;
+text-decoration: none;
+color: var(--black);
+transition: all 0.3s ease;
+display: inline-block;
+}
+
+.paper-link:hover {
+background: var(--black);
+color: var(--white);
+transform: translateY(-2px);
+}
+
 .credentials {
 margin-top: 4rem;
 padding-top: 3rem;
@@ -744,46 +1535,85 @@ position: relative;
 }
 
 .contact-content {
-text-align: center;
-max-width: 900px;
+width: 100%;
+max-width: 1200px;
 }
 
 .contact-title {
 font-size: clamp(4rem, 10vw, 10rem);
 font-weight: 100;
 letter-spacing: -0.03em;
-margin-bottom: 3rem;
+margin-bottom: 6rem;
 line-height: 1;
+text-align: left;
 }
 
-.contact-email {
-font-size: clamp(1.5rem, 4vw, 3rem);
-color: var(--accent-2);
-text-decoration: none;
-font-weight: 300;
-display: inline-block;
+.contact-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 0;
+border-top: 1px solid var(--black);
+}
+
+.contact-item {
+display: grid;
+grid-template-columns: 200px 1fr;
+align-items: center;
+gap: 4rem;
+padding: 3rem 0;
+border-bottom: 1px solid var(--black);
 position: relative;
-transition: color 0.3s ease;
+overflow: hidden;
 }
 
-.contact-email::after {
+.contact-item::before {
 content: '';
 position: absolute;
-bottom: 0;
 left: 0;
+top: 0;
+bottom: 0;
+width: 0%;
+background: var(--black);
+transition: width 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+z-index: 0;
+}
+
+.contact-item:hover::before {
 width: 100%;
-height: 1px;
-background: var(--accent-2);
-transform: scaleX(1);
-transition: transform 0.3s ease;
 }
 
-.contact-email:hover {
+.contact-label {
+font-size: 0.85rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(--gray);
+font-weight: 300;
+position: relative;
+z-index: 1;
+transition: color 0.3s ease 0.2s;
+}
+
+.contact-item:hover .contact-label {
+color: var(--accent-3);
+}
+
+.contact-link {
+font-size: clamp(1.5rem, 3vw, 2.5rem);
+font-weight: 300;
+letter-spacing: -0.01em;
 color: var(--black);
+text-decoration: none;
+position: relative;
+z-index: 1;
+transition: color 0.3s ease 0.2s;
 }
 
-.contact-email:hover::after {
-transform: scaleX(0);
+.contact-link:hover {
+text-decoration: none;
+}
+
+.contact-item:hover .contact-link {
+color: var(--white);
 }
 
 .social-grid {
@@ -922,6 +1752,43 @@ nav {
     max-width: 100%;
 }
 
+.timeline {
+    padding-left: 0;
+}
+
+.timeline::before {
+    left: 20px;
+}
+
+.timeline-year {
+    position: static;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.timeline-connector {
+    left: 20px;
+    top: 5rem;
+    width: 40px;
+}
+
+.timeline-content {
+    padding: 0 0 0 80px;
+}
+
+.updates-section {
+    padding: 6rem 2rem;
+}
+
+.updates-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.updates-header {
+    position: static;
+}
+
 .credentials {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -953,6 +1820,15 @@ nav {
 .contact-section {
     padding: 6rem 2rem;
 }
+.contact-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+}
+
+.contact-link {
+    font-size: 1.5rem;
+}
 
 .social-grid {
     grid-template-columns: 1fr;
@@ -965,20 +1841,59 @@ nav {
 </style>
 </head>
 <body>
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"/>
+            </filter>
+            <filter id="magnify">
+                <feGaussianBlur stdDeviation="0" result="blur"/>
+                <feDisplacementMap in="SourceGraphic" in2="blur" scale="100" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
 <div id="cursor"></div>
 <div id="loader">LOADING</div>
 
 <nav>
 <div class="logo">AARON MARKER</div>
+<div class="nav-right">
+    <div class="social-icons">
+        <a href="mailto:aaron.marker@stonybrook.edu" class="social-icon" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 6l7.89 5.26a2 2 0 002.22 0L21 6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/aaron-marker" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M16 7a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 8h4v12H2z"/>
+                <circle cx="4" cy="4" r="2"/>
+            </svg>
+        </a>
+        <a href="https://github.com/aaronmarker" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 20c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 5.77 5.07 5.07 0 0019.91 2S18.73 1.65 16 3.48a13.38 13.38 0 00-7 0C6.27 1.65 5.09 2 5.09 2A5.07 5.07 0 005 5.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 19.13V23"/>
+            </svg>
+        </a>
+        <a href="CV.pdf" download class="social-icon" aria-label="Download CV">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+                <polyline points="14 3 14 9 20 9"/>
+                <text x="12" y="17.5" font-size="8" fill="none" stroke="currentColor" stroke-width="0.4" font-weight="100" text-anchor="middle">CV</text>
+            </svg>
+        </a>
+    </div>
 <button class="menu-btn" id="menuBtn">MENU</button>
+</div>
 </nav>
 
 <div id="fullscreen-menu">
 <ul class="menu-links">
 <li><a href="#home" class="menu-link">Home</a></li>
-<li><a href="#work" class="menu-link">Work</a></li>
-<li><a href="#about" class="menu-link">About</a></li>
-<li><a href="#contact" class="menu-link">Contact</a></li>
+<li><a href="#info" class="menu-link">Info</a></li>
+<li><a href="#updates" class="menu-link">Updates</a></li>
+<li><a href="#pubs" class="menu-link">Pubs</a></li>
 </ul>
 </div>
 
@@ -993,7 +1908,7 @@ nav {
 </div>
 </section>
 
-<section class="portrait-section" id="portrait">
+<section class="portrait-section" id="info">
 <div class="portrait-container">
 <div class="portrait-wrapper">
     <div class="portrait-main">
@@ -1002,19 +1917,22 @@ nav {
 </div>
 <div class="portrait-text">
     <p class="portrait-label">Introduction</p>
-    <h2 class="portrait-title">Better AI</h2>
+    <h2 class="portrait-title">About</h2>
     <p class="portrait-bio">
         I'm a Computer Science PhD Student at Stony Brook University (soon to be Vanderbilt 
-        University) researching ideas at the intersection of psychology and AI. Specifically, 
-        my interests are currently in improving recommender systems to better target well-being.
-        using a variety of Natural Language Processing (NLP) approaches. I hold a BS with a double 
-        major in Computer Science and Cybersecurity from Randolph-Macon College, with a minor 
+        University) working with professor <a href="https://haschwartz.com/" target="_blank" rel="noopener noreferrer">Prof. H Andrew Schwartz</a>
+        and the <a href="https://humanlanguage.org/" target="_blank" rel="noopener noreferrer">HLAB</a> 
+        researching ideas at the intersection of psychology and AI.  I hold a BS with a double 
+        major in Computer Science and Cybersecurity from Randolph-Macon College, with minors 
         in math and ethics, and have been coding academically and professionally for over a 
         decade.
-        
     </p>
     <p class="portrait-bio">
-        When I'm not coding, I enjoy painting/drawing (see below) and playing pickup volleyball
+        My current interests are in how we can improve recommender systems to better target well-being
+        using a variety of Natural Language Processing (NLP) techniques.
+    </p>
+    <p class="portrait-bio">
+        When I'm not coding, I enjoy <a href="https://www.instagram.com/aaronmarkerart/" target="_blank" rel="noopener noreferrer">painting/drawing</a>, playing pickup volleyball, and evidently website design.
     </p>
     <div class="credentials">
         <div class="credential-item">
@@ -1029,173 +1947,70 @@ nav {
             <p class="credential-title">Specialization</p>
             <p class="credential-value">NLP, AI, Well-Being</p>
         </div>
-    </div>
-</div>
-</div>
-</section>
-
-<section class="parallax-section">
-<div class="parallax-image" id="parallaxImage"></div>
-<h2 class="parallax-text">RESEARCH QUESTIONS</h2>
-</section>
-
-<section class="split-section">
-<div class="split-left" id="splitLeft1">
-<div class="split-content">
-    <div class="split-number">01</div>
-    <h2 class="split-title">Philosophy</h2>
-    <p class="split-description">Design is not just what it looks like and feels like. Design is how it works. Every project is an opportunity to challenge conventions and create something that resonates on a deeper level with its audience.</p>
-</div>
-</div>
-<div class="split-right" id="splitRight1">
-<div class="split-image"></div>
-</div>
-</section>
-
-<section class="split-section">
-<div class="split-right" id="splitRight2">
-<div class="split-image"></div>
-</div>
-<div class="split-left" id="splitLeft2">
-<div class="split-content">
-    <div class="split-number">02</div>
-    <h2 class="split-title">Approach</h2>
-    <p class="split-description">Through meticulous attention to detail and a deep understanding of visual hierarchy, I transform complex ideas into elegant, functional designs that stand the test of time.</p>
-</div>
-</div>
-</section>
-
-<section class="magazine-grid" id="work">
-<div class="grid-header">
-<h2 class="grid-title">Selected Works</h2>
-<p class="grid-subtitle">A CURATED COLLECTION</p>
-</div>
-
-<div class="project-grid">
-<article class="project-item">
-    <div class="project-image-wrapper">
-        <div class="project-image"></div>
-    </div>
-    <div class="project-info">
-        <p class="project-number">001</p>
-        <h3 class="project-title">Monochrome Series</h3>
-        <p class="project-description">A minimalist exploration of form and negative space, challenging the boundaries between digital and physical mediums.</p>
-        <div class="project-tags">
-            <span class="tag">Art Direction</span>
-            <span class="tag">Photography</span>
+        <div class="credential-item education-logos">
+            <p class="credential-title">Education</p>
+            <div class="logo-grid">
+                <div class="university-logo">
+                    <img src="VU_Logo.png" alt="Vanderbilt" style="width: 77px; height: auto;">
+                    <img src="SBU_Logo.png" alt="Stony Brook" style="width: 70px; height: auto; opacity: .75;">
+                    <img src="RMC_Logo.png" alt="Randolph-Macon" style="width: 62px; height: auto;">
+                </div>
+            </div>
         </div>
     </div>
-</article>
+</div>
+</div>
+</section>
 
-<article class="project-item">
-    <div class="project-image-wrapper">
-        <div class="project-image"></div>
+
+<section class="updates-section" id="updates">
+    <div class="updates-background"></div>
+    <div class="updates-container">
+    <div class="updates-header">
+    <h2 class="updates-title">Updates</h2>
+    <p class="updates-subtitle">LATEST NEWS</p>
     </div>
-    <div class="project-info">
-        <p class="project-number">002</p>
-        <h3 class="project-title">Terra Collection</h3>
-        <p class="project-description">Earth-inspired brand identity system celebrating organic textures and natural color palettes.</p>
-        <div class="project-tags">
-            <span class="tag">Branding</span>
-            <span class="tag">Identity</span>
+    
+    <div class="updates-grid">
+    <article class="update-item">
+        <span class="update-date">Aug 2025</span>
+        <p class="update-text">Starting my Visiting Scholar position at Vanderbilt University</p>
+    </article>
+
+    </div>
+    </div>
+    </section>
+
+<section class="magazine-grid" id="pubs">
+    <div class="grid-header">
+    <h2 class="grid-title">Publications</h2>
+    <p class="grid-subtitle">RESEARCH TIMELINE</p>
+    </div>
+    
+    <div class="timeline">
+    <article class="timeline-item">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-content">
+            <h3 class="paper-title">Characterizing Sociodemographic Error Disparities in Large-scale Language-based Health Predictions</h3>
+            <p class="paper-authors">Marker, A., Giorgi, S., Ganesan, A., Varadarajan, V., Brandt, L., Odom, G., Schwartz, H.A.,</p>
+            <p class="paper-venue">ICWSM (Under review)</p>
+            <p class="paper-abstract"></p>
+            <div class="paper-links">
+                <a href="#" class="paper-link">PDF</a>
+            </div>
         </div>
+    </article>
     </div>
-</article>
+    </section>
 
-<article class="project-item">
-    <div class="project-image-wrapper">
-        <div class="project-image"></div>
-    </div>
-    <div class="project-info">
-        <p class="project-number">003</p>
-        <h3 class="project-title">Digital Atelier</h3>
-        <p class="project-description">Experimental web experience pushing the boundaries of interaction design and motion.</p>
-        <div class="project-tags">
-            <span class="tag">Web Design</span>
-            <span class="tag">Development</span>
-        </div>
-    </div>
-</article>
-
-<article class="project-item">
-    <div class="project-image-wrapper">
-        <div class="project-image"></div>
-    </div>
-    <div class="project-info">
-        <p class="project-number">004</p>
-        <h3 class="project-title">Editorial Vision</h3>
-        <p class="project-description">Magazine layout system combining classical typography with contemporary visual language.</p>
-        <div class="project-tags">
-            <span class="tag">Editorial</span>
-            <span class="tag">Print</span>
-        </div>
-    </div>
-</article>
-</div>
-</section>
-
-<section class="portrait-section">
-<div class="portrait-wrapper" id="portraitWrapper">
-<div class="portrait-frame"></div>
-<div class="portrait-image">
-    <!-- Your portrait will appear here -->
-</div>
-<div class="portrait-overlay"></div>
-</div>
-<div class="portrait-text">
-<p class="portrait-label">Introduction</p>
-<h2 class="portrait-title">Creating with intention and purpose</h2>
-<p class="portrait-bio">
-    I'm a multidisciplinary designer and creative director with a passion for crafting 
-    meaningful experiences that exist at the intersection of art and function. Based between 
-    New York and Los Angeles, I work with forward-thinking brands and individuals who value 
-    design as a strategic tool for transformation.
-</p>
-<p class="portrait-bio">
-    My work spans visual identity, editorial design, digital experiences, and creative 
-    direction—always guided by a belief that the most powerful design is both beautiful 
-    and purposeful.
-</p>
-<div class="credentials">
-    <div class="credential-item">
-        <p class="credential-title">Based In</p>
-        <p class="credential-value">New York / Los Angeles</p>
-    </div>
-    <div class="credential-item">
-        <p class="credential-title">Experience</p>
-        <p class="credential-value">8+ Years in Design</p>
-    </div>
-    <div class="credential-item">
-        <p class="credential-title">Specialization</p>
-        <p class="credential-value">Creative Direction & Visual Identity</p>
-    </div>
-</div>
-</div>
-</section>
-
-<section class="large-text-section" id="about">
-<p class="large-text">
-I believe in the power of <em>simplicity</em> and the beauty of <em>restraint</em>. 
-Every line, every space, every decision is intentional.
-</p>
-</section>
-
-<section class="contact-section" id="contact">
-<div class="contact-content">
-<h2 class="contact-title">Let's Talk</h2>
-<a href="mailto:hello@example.com" class="contact-email">hello@example.com</a>
-<div class="social-grid">
-    <a href="#" class="social-link">Instagram</a>
-    <a href="#" class="social-link">LinkedIn</a>
-    <a href="#" class="social-link">Behance</a>
-    <a href="#" class="social-link">Twitter</a>
-</div>
-</div>
-</section>
-
-<footer>
-<p>&copy; 2025 ALL RIGHTS RESERVED</p>
-</footer>
+    <footer style="background:#111;color:#eee;text-align:center;padding:1rem 0;font-size:0.8rem;line-height:1.2;letter-spacing:0.5px;">
+        <p style="margin:2px 0;">
+          aaron<span style="margin:2px 0;opacity:0.7;">[dot]</span>marker<span style="margin:2px 0;opacity:0.7;">[at]</span>stonybrook<span style="margin:2px 0;opacity:0.7;">[dot]</span>edu
+        </p>
+        <p style="margin:2px 0;">HLAB • 1400 18th Ave S • Nashville, TN 37212</p>
+        <p style="margin:2px 0;opacity:0.7;">&copy; 2025 ALL RIGHTS RESERVED</p>
+    </footer>
 
 <script>
 // Loader
@@ -1205,31 +2020,84 @@ setTimeout(() => {
 }, 1500);
 });
 
-// Custom Cursor
+
+// Enhanced cursor with velocity-based morphing
 const cursor = document.getElementById('cursor');
 let mouseX = 0, mouseY = 0;
 let cursorX = 0, cursorY = 0;
+let lastX = 0, lastY = 0;
+let velocityX = 0, velocityY = 0;
 
 document.addEventListener('mousemove', (e) => {
-mouseX = e.clientX;
-mouseY = e.clientY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    velocityX = mouseX - lastX;
+    velocityY = mouseY - lastY;
+    
+    lastX = mouseX;
+    lastY = mouseY;
+});
+
+// Hide scroll indicator on scroll - SMOOTH FADE VERSION
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    if (scrollIndicator) {
+        // Fade in after 3 seconds
+        setTimeout(() => {
+            scrollIndicator.classList.add('visible');
+        }, 5000);
+        
+        const hideScroll = () => {
+            if (window.pageYOffset > 50) {
+                scrollIndicator.classList.remove('visible');
+                scrollIndicator.classList.add('hidden');
+                window.removeEventListener('scroll', hideScroll);
+            }
+        };
+        
+        window.addEventListener('scroll', hideScroll);
+    }
 });
 
 function animateCursor() {
-cursorX += (mouseX - cursorX) * 0.15;
-cursorY += (mouseY - cursorY) * 0.15;
-cursor.style.left = cursorX + 'px';
-cursor.style.top = cursorY + 'px';
-requestAnimationFrame(animateCursor);
+    cursorX += (mouseX - cursorX) * 0.15;
+    cursorY += (mouseY - cursorY) * 0.15;
+    
+    // Calculate velocity magnitude
+    const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+    
+    // Morph based on velocity
+    const scaleX = 1 + Math.min(Math.abs(velocityX) * 0.02, 0.5);
+    const scaleY = 1 + Math.min(Math.abs(velocityY) * 0.02, 0.5);
+    const rotation = Math.atan2(velocityY, velocityX) * (180 / Math.PI);
+    
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`;
+
+    
+    // Decay velocity
+    velocityX *= 0.8;
+    velocityY *= 0.8;
+    
+    requestAnimationFrame(animateCursor);
 }
 animateCursor();
 
-// Cursor expand on hover
-const hoverElements = document.querySelectorAll('a, button, .project-item');
-hoverElements.forEach(el => {
-el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
-el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+// Create ripple on click - CENTERED
+document.addEventListener('click', (e) => {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top = e.clientY + 'px';
+    ripple.style.transform = 'translate(-50%, -50%)';
+    document.body.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 1500);
 });
+
 
 // Menu
 const menuBtn = document.getElementById('menuBtn');
@@ -1240,6 +2108,15 @@ menuBtn.addEventListener('click', () => {
 menuOpen = !menuOpen;
 fullscreenMenu.classList.toggle('active');
 menuBtn.textContent = menuOpen ? 'CLOSE' : 'MENU';
+});
+
+// Close menu when clicking anywhere (including the gradient)
+document.addEventListener('click', (e) => {
+    if (menuOpen && !menuBtn.contains(e.target)) {
+        menuOpen = false;
+        fullscreenMenu.classList.remove('active');
+        menuBtn.textContent = 'MENU';
+    }
 });
 
 document.querySelectorAll('.menu-link').forEach(link => {
@@ -1277,8 +2154,11 @@ entries.forEach(entry => {
 // Observe split sections
 document.querySelectorAll('[id^="split"]').forEach(el => observer.observe(el));
 
-// Observe project items
-document.querySelectorAll('.project-item').forEach(el => observer.observe(el));
+// Observe timeline items
+document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+
+// Observe update items
+document.querySelectorAll('.update-item').forEach(el => observer.observe(el));
 
 // Observe portrait section
 const portraitSection = document.querySelector('.portrait-section');
